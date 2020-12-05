@@ -7,12 +7,7 @@ void runRAM();
 FILE* runAddr();
 void blockCheck(FILE* memory);
 
-// variables globales de Fallo y Tiempo / Global var for globaltime n number of miss.
-
-int tiempoglobal = 0;
-int numerofallo = 0;
-
-// Estructura de linea / Struct line of cache
+// Estructura de linea y del proceso por defecto / Struct line of cache and the default proccess
 
 typedef struct{
 	short int ETQ;
@@ -20,9 +15,16 @@ typedef struct{
 
 }T_LINEA_CACHE;
 
+typedef struct{
+
+	int tiempoglobal;
+	int numerofallo;
+	T_LINEA_CACHE cache[3];
+}nPROCESS;
+
 //Global var
 
-T_LINEA_CACHE linea[3];
+nPROCESS proceso;
 unsigned char RAM[1023];
 unsigned char memory_access[12];
 
@@ -52,20 +54,20 @@ void runCache(){
 
 	const short int final_ETQ = 0xFF;
 
-	sleep(1);
+//	sleep(1);
 	printf("Inicializando la Cache");printf(".");printf(".");printf(".\n");
 
-	sleep(3);
+//	sleep(3);
 
 	//Bucle for para inicializar la linea / for loop to initialize the cache line.
 	for(int i=0; i < 4; i++){
 
-		linea[i].ETQ = final_ETQ;
-		printf("La ETQ %X tiene un valor inicial de ", linea[i].ETQ);
+		proceso.cache[i].ETQ = final_ETQ;
+		printf("La ETQ %X tiene un valor inicial de ", proceso.cache[i].ETQ);
 
 		for(int j=0; j<9; j++){
-			linea[i].Datos[j] = 0;
-			printf("%d ", linea[i].Datos[j]);
+			proceso.cache[i].Datos[j] = 0;
+			printf("%d ", proceso.cache[i].Datos[j]);
 		}
 		printf("\n");
 	}
@@ -138,6 +140,7 @@ void blockCheck(FILE *memory){
 	//Escaneamos cada linea de las direcciones del fichero / Scan every address from the file.
 	for(int z = 0; z<12; z++){
 		fscanf(memory, "%X", &addr[z]);
+
 	//debug
 	//	printf("addr %#04x \n", addr[z]);
 	}
@@ -145,26 +148,67 @@ void blockCheck(FILE *memory){
 
 	//Comparamos con el operador logico AND si se corresponde a la mascara de Bits / Compare the addr with the logic operator AND using the mask bit of every element.
 	printf("\nEscaneando los bloques..\n");
-	sleep(2);
+	//sleep(2);
+
+	proceso.tiempoglobal = 0;
+
 	for(int f = 0; f<12 ; f++){
+		proceso.numerofallo = 0;
+		addr_block[f] = ( addr[f] & bit_BLOCK ) >> 3;
+		addr_ETQ[f] = ( addr[f] & bit_ETQ ) >> 3;
+		addr_line[f] = ( addr[f] & bit_LINE ) >> 3;
+		addr_word[f] = ( addr[f] & bit_WORD );
 
-		addr_block[f] = addr[f] & bit_BLOCK;
-		addr_ETQ[f] = addr[f] & bit_ETQ;
-		addr_line[f] = addr[f] & bit_LINE;
-		addr_word[f] = addr[f] & bit_WORD;
+		if(addr_ETQ[f] == proceso.cache[addr_line[f]].ETQ){
 
-		if(addr_ETQ[f] == linea[addr_line[f]].ETQ){
-
-			printf("\n T: %d | Fallo de Cache: %d | Addr %04x | ETQ %x   | Linea %02x | Palabra %02x | Bloque %02x  | ---> Son Iguales.", tiempoglobal, numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]); //the are the same line.
-			sleep(1);
+			if(proceso.tiempoglobal > 0){
+				if(addr_ETQ[f] == 0){
+					printf("\n T: %d | Fallo de Cache: %d | Addr %04x | ETQ %X     | Linea %02x | Palabra %02x | Bloque %02x  | ---> Son Iguales.", proceso.tiempoglobal, proceso.numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]); //the are the same line.
+				}else{
+					printf("\n T: %d  | Fallo de Cache: %d | Addr %04x | ETQ %X   | Linea %02x | Palabra %02x | Bloque %02x  | ---> Son Iguales.", proceso.tiempoglobal, proceso.numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]); //the are the same line.
+				}
+			}else{
+				if(addr_ETQ[f] == 0){
+					printf("\n T: %d  | Fallo de Cache: %d | Addr %04x | ETQ %X    | Linea %02x | Palabra %02x | Bloque %02x  | ---> Son Iguales.", proceso.tiempoglobal, proceso.numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]); //the are the same line.
+				}else{
+						printf("\n T: %d  | Fallo de Cache: %d | Addr %04x | ETQ %X   | Linea %02x | Palabra %02x | Bloque %02x  | ---> Son Iguales.", proceso.tiempoglobal, proceso.numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]); //the are the same line.
+				}
+			}
+		//	sleep(1);
 		}else{
-			numerofallo++;
-			printf("\n T: %d | Fallo de Cache: %d | Addr %04x | ETQ %x | Linea %02x | Palabra %02x | Bloque %02x |", tiempoglobal, numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f] );
-			tiempoglobal+=10;
+			proceso.numerofallo++;
+
+			if(proceso.tiempoglobal > 0){
+
+				if(proceso.tiempoglobal > 99){
+
+					if(addr_ETQ[f] == 0){
+						printf("\n T: %d| Fallo de Cache: %d | Addr %04x | ETQ %X    | Linea %02x | Palabra %02x | Bloque %02x |", proceso.tiempoglobal, proceso.numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]);
+					}else{
+						printf("\n T: %d| Fallo de Cache: %d | Addr %04x | ETQ %X   | Linea %02x | Palabra %02x | Bloque %02x |", proceso.tiempoglobal, proceso.numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]); 
+					}
+
+				}else{
+
+					if(addr_ETQ[f] == 0){
+						printf("\n T: %d | Fallo de Cache: %d | Addr %04x | ETQ %X    | Linea %02x | Palabra %02x | Bloque %02x |", proceso.tiempoglobal, proceso.numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]); 
+					}else{
+						printf("\n T: %d | Fallo de Cache: %d | Addr %04x | ETQ %X   | Linea %02x | Palabra %02x | Bloque %02x |", proceso.tiempoglobal, proceso.numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]); 
+					}
+
+				}
+			}else{
+
+				if(addr_ETQ[f] == 0){
+					printf("\n T: %d  | Fallo de Cache: %d | Addr %04x | ETQ %X     | Linea %02x | Palabra %02x | Bloque %02x |", proceso.tiempoglobal, proceso.numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]);
+				}else{
+					printf("\n T: %d  | Fallo de Cache: %d | Addr %04x | ETQ %X   | Linea %02x | Palabra %02x | Bloque %02x |", proceso.tiempoglobal, proceso.numerofallo, addr[f], addr_ETQ[f], addr_line[f], addr_word[f], addr_block[f]); 
+				}
+			}
+			proceso.tiempoglobal+=10;
 			sleep(1);
 		}
-		numerofallo = 0;
-		tiempoglobal = 0;
+
 	}
 
 	printf("\n");
