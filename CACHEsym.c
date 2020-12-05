@@ -31,7 +31,7 @@ unsigned char memory_access[12];
 #define bit_BLOCK 0b1111111000
 #define bit_ETQ 0b1111100000
 #define bit_LINE 0b0000011000
-#define bit_WORD 0b00000000111
+#define bit_WORD 0b0000000111
 
 
 int main (){
