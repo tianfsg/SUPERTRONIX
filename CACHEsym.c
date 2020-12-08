@@ -2,48 +2,49 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-
-FILE* runRAM();
-FILE* runAddr();
+// prototipos de funciones
+FILE* runRAM(); 
+FILE* runAddr(); 
 void runCache();
 void mostrarCache();
 void blockCheck(FILE* memory, FILE* bin);
 void updateLine(FILE* bin, int h, int memory);
 
-// Estructura de linea y del proceso por defecto / Struct line of cache and the default proccess
+typedef struct{ //estructura de la linea; tiene etiqueta y 8 palabras.
 
-typedef struct{
 	short int ETQ;
 	short int palabras[8];
 
 }T_LINEA_CACHE;
 
-typedef struct{
+typedef struct{ //estructura del proceso; tiene tiempoglobal, numero de fallos y 4 lineas de cache.
 
-	int tiempoglobal;
+	int tiempoglobal;	
 	int numerofallo;
-	T_LINEA_CACHE cache[3];
+	T_LINEA_CACHE cache[4];
+
 }nPROCESS;
 
-//Global var
+//Variables globales
 
-nPROCESS proceso;
-unsigned char RAM[1023];
-unsigned char memory_access[12];
+nPROCESS proceso; //variable proceso; es una estructura y uno de sus elementos es otra estructura (T_LINEA_CACHE)
+unsigned char RAM[1024]; //aqui ira el contenido de RAM.bin
+unsigned char memory_access[12]; //aqui ira el contenido de accesos_memoria.txt
 
-//Mascara de bits / Bit-mask
+//Mascaras de bits
 
-#define bit_BLOCK 0b1111111000
-#define bit_ETQ 0b1111100000
-#define bit_LINE 0b0000011000
-#define bit_WORD 0b0000000111
+#define bit_BLOCK 0b1111111000 //bloque
+#define bit_ETQ 0b1111100000 //etiqueta
+#define bit_LINE 0b0000011000 //linea
+#define bit_WORD 0b0000000111 //palabra
 
 
 int main (){
-	FILE* ram =	runRAM();
-	FILE* memory = runAddr();
 
-	runCache();
+	FILE* ram =	runRAM(); //asignas el contenido de RAM.bin a la variable ram
+	FILE* memory = runAddr(); //asignas el contenido de accesos_memoria.txt a la variable memory
+
+	runCache(); //inicializas toda la cache a 00
 
 	blockCheck(memory, ram);
 
@@ -58,57 +59,58 @@ int main (){
 
 void runCache(){
 
-	const short int final_ETQ = 0xFF;
+	const short int final_ETQ = 0xFF; //valor inicial de las etiquetas, FF (HEX)
 
 //	sleep(1);
-	printf("Inicializando la Cache");printf(".");printf(".");printf(".\n");
+	printf("Inicializando la Cache...\n");
 
 //	sleep(3);
 
 	//Bucle for para inicializar la linea / for loop to initialize the cache line.
 	for(int i=0; i < 4; i++){
 
-		proceso.cache[i].ETQ = final_ETQ;
+		proceso.cache[i].ETQ = final_ETQ; //asignas FF a todas las etiqueta
 		printf("La ETQ %X tiene un valor inicial de ", proceso.cache[i].ETQ);
 
-		for(int j=0; j<9; j++){
+		for(int j=0; j<8; j++){ //asignas 0 a todas las palabras
+
 			proceso.cache[i].palabras[j] = 0;
 			printf("%d ", proceso.cache[i].palabras[j]);
+		
 		}
 		printf("\n");
 	}
-
 }
 
-FILE* runRAM(){
+FILE* runRAM(){ //asignas el contenido de RAM.bin a la variable ram
 
 	FILE* bin;
 
 	bin = fopen("RAM.bin", "r");
 
-	if(bin == NULL){
+	if(bin == NULL){ //manejo de excepciones a la hora de abrir el fichero
+
 		int H = 0;
 		printf("\nEl fichero 'RAM.bin' no existe.\n\n");
 
 		sleep(2);
 		H=1;
 		do{exit (-1);}while(H==1);
+
 	}
 	rewind(bin);
-
 	return bin;
 }
 
 
-FILE* runAddr(){
-
+FILE* runAddr(){ //asignas el contenido de RAM.bin a la variable memory
+ 
 	// Abrimos el fichero / Open the FILE
 
 	FILE *memory;
 	memory = fopen("accesos_memoria.txt", "r");
 
-	//Si el fichero no existe 'segmention fault error' / If the file doesn't exist it breaks 
-	if(memory == NULL){
+	if(memory == NULL){ //manejo de excepciones a la hora de abrir el fichero
 		int H = 0;
 		printf("\nEl fichero 'accesos_memoria.txt' no existe.\n\n");
 
@@ -123,9 +125,9 @@ FILE* runAddr(){
 }
 
 void blockCheck(FILE* memory, FILE* bin){
-//Declaramos e Inicializamos a 0 direccion, y la dirreccion de cada elemento dentro de la cache / Declare and initialize to 0 every address from cache.
-	runCache();
-	int addr_memory[12], addr_block[12], addr_ETQ[12], addr_line[12], addr_word[12], addr_bin[1023];
+	//Declaramos e Inicializamos a 0 direccion, y la dirreccion de cada elemento dentro de la cache / Declare and initialize to 0 every address from cache.
+//	runCache();
+	int addr_memory[12], addr_block[12], addr_ETQ[12], addr_line[12], addr_word[12], addr_bin[1024];
 
 	for(int y=0 ; y<12 ; y++){
 		addr_block[y] = 0;
@@ -159,24 +161,24 @@ void blockCheck(FILE* memory, FILE* bin){
 
 	//Donde se miraran todas las direcciones con cada una de las lineas, aconsejo probar al reves a ver si printea mejor!!
 
-	for(int r = 0; r<12; r++){
+	for(int r = 0; r<4; r++){
 
-		for(int f = 0; f<4 ; f++){
+		for(int f = 0; f<12 ; f++){
 
 
 			if(proceso.cache[f].ETQ != addr_ETQ[r]){	
-				//printf("linea %d acceso de memoria %04X \n", f, addr_memory[r]);
+				printf("linea %d acceso de memoria %04X \n", f, addr_memory[r]);
 				//sleep(2);
 
-				printf("T: %d | Fallo de CACHE %d | ADDR %04X | ETQ %X | linea %02X | palabra %02X | bloque %02X |\n", proceso.tiempoglobal, proceso.numerofallo, addr_memory[r], addr_ETQ[r], addr_line[r], addr_word[r], addr_block[r]);
+				//printf("T: %d | Fallo de CACHE %d | ADDR %04X | ETQ %X | linea %02X | palabra %02X | bloque %02X |\n", proceso.tiempoglobal, proceso.numerofallo, addr_memory[r], addr_ETQ[r], addr_line[r], addr_word[r], addr_block[r]);
 				updateLine(bin, f, addr_memory[r]);	
 				sleep(1);
 			}else{
 				proceso.tiempoglobal++;
-				//printf("linea %d acceso de memoria %04X \n", f, addr_memory[r]);
+				printf("linea %d acceso de memoria %04X \n", f, addr_memory[r]);
 				
-				printf("T: %d | Acierto de CACHE | ADDR %04X | ETQ %X | linea %02X | palabra %02X | DATO %02X|\n", proceso.tiempoglobal, addr_memory[r], addr_ETQ[r], addr_line[r], addr_word[r], proceso.cache[addr_line[r]].palabras[addr_word[r]]);
-				mostrarCache();
+				//printf("T: %d | Acierto de CACHE | ADDR %04X | ETQ %X | linea %02X | palabra %02X | DATO %02X|\n", proceso.tiempoglobal, addr_memory[r], addr_ETQ[r], addr_line[r], addr_word[r], proceso.cache[addr_line[r]].palabras[addr_word[r]]);
+				//mostrarCache();
 				sleep(1);
 	
 			}
@@ -228,19 +230,19 @@ void updateLine(FILE* bin, int h, int memory){
 
 			//AQUI TOCA HACER COMPROBACIONES DE ETIQUETAS Y PROBAR SI SALE UN MEJOR RESULTADO DESPUES EN CHECKBLOCK AL MOSTRAR LA CACHE.   addr_ETQmemory con addr_ETQbin[u]
 
-			//printf("ETQ iguales bin: %x  mem: %x\n", addr_ETQbin[u], addr_ETQmemory);
-			//printf("valor de la p = %d\n", u);
+			printf("ETQ iguales bin: %x  mem: %x\n", addr_ETQbin[u], addr_ETQmemory);
+			printf("valor de la p = %d\n", u);
 
 			//BUCLE QUE ESCRIBE LOS DATOS(PALABRAS) DE MENOR A MAYOR PESO bits (escribe en el array de manera invertida)
-			for(;t<9; t++){
+			for(;t<8; t++){
 				for(p=u; p > (u-8); p--){
 					
-					//printf("el valor de p %d, hasta %d, el array direcciona a %d\n", p, (u+8), (p+8));
-					//printf("valor de la linea h %d\n",h);
+					printf("el valor de p %d, hasta %d, el array direcciona a %d\n", p, (u+8), (p+8));
+					printf("valor de la linea h %d\n",h);
 
 					proceso.cache[h].palabras[t] = addr_WORDbin[p+8];
 					
-					//printf("PRINT ADDR (%04X) ETQ: %X | LINEA %d | PALABRA %X | Valor de P %d\n", memory, addr_ETQbin[u], h, proceso.cache[h].palabras[t], p );
+					printf("PRINT ADDR (%04X) ETQ: %X | LINEA %d | PALABRA %X | Valor de P %d\n", memory, addr_ETQbin[u], h, proceso.cache[h].palabras[t], p );
 					
 					t++;
 					
@@ -258,7 +260,7 @@ void mostrarCache(){
 	
 	for(int i=0; i < 4; i++){
 		printf("\nLa ETQ: %X   DATOS: ", proceso.cache[i].ETQ);
-		for(int r = 0; r < 9; r++){
+		for(int r = 0; r < 8; r++){
 
 			printf("%X ", proceso.cache[i].palabras[r]);
 		}
