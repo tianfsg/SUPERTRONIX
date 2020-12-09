@@ -177,7 +177,7 @@ void blockCheck(FILE* memory){
 	proceso.tiempoglobal = 0;
 	proceso.numerofallo = 0;
 
-	//Donde se miraran todas las direcciones con cada una de las lineas, aconsejo probar al reves a ver si printea mejor!!
+    //Comprobacion / Checking
 
 	for(int f = 0; f < 12; f++){
 
@@ -221,7 +221,7 @@ void updateLine(int ETQ, int linea, int BLOCK, unsigned char addr_bin[]){
 
 	int p = 0, addr_BLOCKbin[1024], addr_WORDbin[1024];
 
-	//Convertimos todos los *accesos de memoria* (memory) por Bloque y ETQ | Convertimos todas las direcciones de RAM (bin) por Bloque y Palabra /
+	//Convertimos todas las direcciones de RAM (bin) por Bloque y Palabra / Convert all addresses of RAM (bin) by Block and Word.
 
 	for(int k = 0; k<1024; k++){
 		addr_BLOCKbin[k] = (addr_bin[k] & bit_BLOCK) >> 3;
@@ -242,7 +242,7 @@ void updateLine(int ETQ, int linea, int BLOCK, unsigned char addr_bin[]){
 	//sleep(2);
 }
 
-void mostrarCache(){
+void mostrarCache(){//Show cache
 
 	for(int i=0; i < 4; i++){
 
@@ -263,7 +263,7 @@ void mostrarCache(){
 	//sleep(1);
 }
 
-void contenidoCache(){
+void contenidoCache(){//Cache content
 	
 	//sleep(0.5);
 
