@@ -1,0 +1,155 @@
+Inicializando la Cache...
+
+ETQ FF DATOS: 0 0 0 0 0 0 0 0 
+ETQ FF DATOS: 0 0 0 0 0 0 0 0 
+ETQ FF DATOS: 0 0 0 0 0 0 0 0 
+ETQ FF DATOS: 0 0 0 0 0 0 0 0 
+
+Escaneando los bloques..
+
+T: 0 | Fallo de CACHE 1 | ADDR 02E4 | BLOQUE 5C | ETQ 17 | LINEA 00 | PALABRA 04 |
+
+Cargando el Bloque 5C en la Linea 00..
+
+T: 10 | Acierto de CACHE | ADDR 02E4 | ETQ 17 | LINEA 00 | PALABRA 04 | DATO 70 |
+
+ETQ: 17  DATOS: 73 72 71 70 6F 6E 6D 6C 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+
+
+T: 11 | Fallo de CACHE 2 | ADDR 0200 | BLOQUE 40 | ETQ 10 | LINEA 00 | PALABRA 00 |
+
+Cargando el Bloque 40 en la Linea 00..
+
+T: 21 | Acierto de CACHE | ADDR 0200 | ETQ 10 | LINEA 00 | PALABRA 00 | DATO 6D |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+
+
+T: 22 | Fallo de CACHE 3 | ADDR 0208 | BLOQUE 41 | ETQ 10 | LINEA 01 | PALABRA 00 |
+
+Cargando el Bloque 41 en la Linea 01..
+
+T: 32 | Acierto de CACHE | ADDR 0208 | ETQ 10 | LINEA 01 | PALABRA 00 | DATO 75 |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: 10  DATOS: 63 62 61 79 78 77 76 75 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+
+
+T: 33 | Fallo de CACHE 4 | ADDR 0109 | BLOQUE 21 | ETQ 08 | LINEA 01 | PALABRA 01 |
+
+Cargando el Bloque 21 en la Linea 01..
+
+T: 43 | Acierto de CACHE | ADDR 0109 | ETQ 8 | LINEA 01 | PALABRA 01 | DATO 70 |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: 8   DATOS: 76 75 74 73 72 71 70 6F 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+
+
+T: 44 | Acierto de CACHE | ADDR 010A | ETQ 8 | LINEA 01 | PALABRA 02 | DATO 71 |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: 8   DATOS: 76 75 74 73 72 71 70 6F 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+
+
+T: 45 | Fallo de CACHE 5 | ADDR 020B | BLOQUE 41 | ETQ 10 | LINEA 01 | PALABRA 03 |
+
+Cargando el Bloque 41 en la Linea 01..
+
+T: 55 | Acierto de CACHE | ADDR 020B | ETQ 10 | LINEA 01 | PALABRA 03 | DATO 78 |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: 10  DATOS: 63 62 61 79 78 77 76 75 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+
+
+T: 56 | Acierto de CACHE | ADDR 0209 | ETQ 10 | LINEA 01 | PALABRA 01 | DATO 76 |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: 10  DATOS: 63 62 61 79 78 77 76 75 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+
+
+T: 57 | Fallo de CACHE 6 | ADDR 001C | BLOQUE 03 | ETQ 00 | LINEA 03 | PALABRA 04 |
+
+Cargando el Bloque 03 en la Linea 03..
+
+T: 67 | Acierto de CACHE | ADDR 001C | ETQ 0 | LINEA 03 | PALABRA 04 | DATO 64 |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: 10  DATOS: 63 62 61 79 78 77 76 75 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: 0   DATOS: 67 66 65 64 63 62 61 79 
+
+
+T: 68 | Acierto de CACHE | ADDR 001D | ETQ 0 | LINEA 03 | PALABRA 05 | DATO 65 |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: 10  DATOS: 63 62 61 79 78 77 76 75 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: 0   DATOS: 67 66 65 64 63 62 61 79 
+
+
+T: 69 | Fallo de CACHE 7 | ADDR 030B | BLOQUE 61 | ETQ 18 | LINEA 01 | PALABRA 03 |
+
+Cargando el Bloque 61 en la Linea 01..
+
+T: 79 | Acierto de CACHE | ADDR 030B | ETQ 18 | LINEA 01 | PALABRA 03 | DATO 65 |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: 18  DATOS: 69 68 67 66 65 64 63 62 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: 0   DATOS: 67 66 65 64 63 62 61 79 
+
+
+T: 80 | Acierto de CACHE | ADDR 030F | ETQ 18 | LINEA 01 | PALABRA 07 | DATO 69 |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: 18  DATOS: 69 68 67 66 65 64 63 62 
+ETQ: FF  DATOS: 0 0 0 0 0 0 0 0 
+ETQ: 0   DATOS: 67 66 65 64 63 62 61 79 
+
+
+T: 81 | Fallo de CACHE 8 | ADDR 0010 | BLOQUE 02 | ETQ 00 | LINEA 02 | PALABRA 00 |
+
+Cargando el Bloque 02 en la Linea 02..
+
+T: 91 | Acierto de CACHE | ADDR 0010 | ETQ 0 | LINEA 02 | PALABRA 00 | DATO 71 |
+
+ETQ: 10  DATOS: 74 73 72 71 70 6F 6E 6D 
+ETQ: 18  DATOS: 69 68 67 66 65 64 63 62 
+ETQ: 0   DATOS: 78 77 76 75 74 73 72 71 
+ETQ: 0   DATOS: 67 66 65 64 63 62 61 79 
+
+-----------------------------------------------------------
+
+	CACHE	
+
+Contenido: t s r q p o n m 
+Contenido: i h g f e d c b 
+Contenido: x w v u t s r q 
+Contenido: g f e d c b a y 
+
+-----------------------------------------------------------
+
+
+Numero de accesos: 12
+Fallos totales: 8
+Tiempo total: 92s
+Tiempo medio 4.00s
+
+El Proceso ha terminado...
+
