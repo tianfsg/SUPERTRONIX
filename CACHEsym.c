@@ -86,7 +86,7 @@ void runCache(){
 		for(int j=0; j<8; j++){ //Asignas 0 a todas las palabras / Initialize every WORD to 0
 
 			proceso.cache[i].palabras[j] = 0x0;
-			printf("%d ", proceso.cache[i].palabras[j]);
+			printf("%d0 ", proceso.cache[i].palabras[j]);
 
 		}
 		printf("\n");
@@ -253,7 +253,14 @@ void mostrarCache(){//Show cache
 		}
 		
 		for(int r = 7; r >= 0; r--){
-			printf("%X ", proceso.cache[i].palabras[r]);
+			if(proceso.cache[i].palabras[r] != 0x0){
+				printf("%X ", proceso.cache[i].palabras[r]);
+			}else
+			{
+				printf("%d0 ", proceso.cache[i].palabras[r]);
+			}
+			
+				
 		}
 		
 		//sleep(0.8);
