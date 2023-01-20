@@ -1,4 +1,4 @@
-Realizado por Sebastián Fco. Gutiérrez Rojas && Jorge Martinez Hurtado
+Realizado por Sebastián Fco. Gutiérrez Rojas && Jorge Martínez Hurtado
 
 Este programa en C simula el sistema de ficheros de un sistema operativo Linux, utilizando una estructura de proceso y una estructura de línea de cache. El proceso tiene una variable global que contiene información sobre el tiempo global, el tiempo medio, el número de fallos y el número de accesos, así como una matriz de cuatro líneas de cache. La estructura de línea de cache tiene dos variables: una etiqueta y ocho palabras.
 
