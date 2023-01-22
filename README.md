@@ -1,4 +1,4 @@
-Realizado por Sebastián Fco. Gutiérrez Rojas && Jorge Martínez Hurtado
+# Realizado por [Sebastián Fco. Gutiérrez Rojas](https://github.com/tianfsg) && [Jorge Martínez Hurtado](https://github.com/nothing4free)
 
 Este programa en C simula el sistema de ficheros de un sistema operativo Linux, utilizando una estructura de proceso y una estructura de línea de cache. El proceso tiene una variable global que contiene información sobre el tiempo global, el tiempo medio, el número de fallos y el número de accesos, así como una matriz de cuatro líneas de cache. La estructura de línea de cache tiene dos variables: una etiqueta y ocho palabras.
 
@@ -8,4 +8,4 @@ El programa también tiene funciones para mostrar el contenido de la cache en ca
 
 Finalmente, el programa imprime el número de accesos, el número total de fallos, el tiempo total y el tiempo medio, y termina con una pausa antes de finalizar.
 
-Es importante mencionar que el esqueleto del código fue desarrollado por el profesor Francisco Javier Algarra.
+Es importante mencionar que el esqueleto del código fue desarrollado por el profesor [Javier García-Algarra](https://github.com/jgalgarra).
